@@ -3,6 +3,7 @@ package nyc.c4q.ac21.calendar;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class Holidays {
 
@@ -16,17 +17,25 @@ public class Holidays {
      */
     public static HashMap<Calendar, String> getHolidays(String holidayType) {
         ArrayList<String> lines = FileTools.readLinesFromFile("holidays.csv");
+
+
         // Each line is of the form "date,name,type", where "date" is a date
         // in YYYY-MM-DD format, "name" is the holiday name, and "type" is
         // the holiday type.  Include only those lines where "type" matches
         // the 'holidayType' parameter.
 
+
+
         HashMap<Calendar, String> holidays = new HashMap<Calendar, String>();
+
+        // iterates over the lines ArrayList and adds each list item that contains "National Holiday" to the holidays HashMap
         for (String line : lines) {
-            // FIXME: Write this.
-            // Use DateTools.parseDate.
+            String[] splitString = line.split(","); // splits each line of the array into parts by commas
+            String holiday = splitString[2];        // sets holiday to the last part separated by a comma in each line (holiday type)
+
+            if (holiday.equals("National holiday"))
+                holidays.put(DateTools.parseDate(splitString[0]), splitString[1]);  // if holiday type is National, adds to holidays HashMap
         }
         return holidays;
     }
-
 }

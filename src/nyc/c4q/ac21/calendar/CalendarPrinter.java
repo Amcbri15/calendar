@@ -1,6 +1,7 @@
 package nyc.c4q.ac21.calendar;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class CalendarPrinter
 {
@@ -29,6 +30,34 @@ public class CalendarPrinter
         // Use these methods to help you:
         //   DateTools.getMonthNames()
         //   DateTools.getNextDay() to loop through days in the month.
-    }
 
+        int dateYear = date.get(date.YEAR);             // format input year to int
+        int dateMonth = date.get(date.MONTH);           // format input month to int
+        int dateDay = date.get(date.DAY_OF_MONTH);      // format input day to int
+
+        Calendar firstOfMonth = Calendar.getInstance();
+        firstOfMonth.set(dateYear, dateMonth, 1);
+
+        int startDay = firstOfMonth.get(firstOfMonth.DAY_OF_WEEK);      // find the day of the week that the first falls on
+        int daysInMonth = date.getActualMaximum(date.DAY_OF_MONTH);     // find the number of days in given month
+        String monthName = DateTools.getMonthNames().get(dateMonth);    // get the name using DateTools
+        String padding = "";
+
+        System.out.println(monthName + " " + dateYear);                 // prints month and year
+        for (int i = 1; i < startDay; i++) {
+            padding += "    ";                                          // builds up padding for first week
+        }
+        System.out.print(padding);
+
+        for (int i = 1; i <= daysInMonth; i++) {
+            if (i < 10)
+                System.out.print(" ");                                  // adds an extra space in front of single digit dates
+            if (i == dateDay)
+                System.out.print(i + "* ");                             // marks current day
+            else
+                System.out.print(i + "  ");                             // prints day number
+            if ((i - 1 + startDay) % 7 == 0)
+                System.out.print("\n");                                 // new line for each week
+        }
+    }
 }
